@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { ProcessingState, ProcessingStep } from '@/types'
+import { ProcessingState, ProcessingStep, ProcessingResults } from '@/types'
 
 const INITIAL_STEPS: ProcessingStep[] = [
   {
@@ -39,6 +39,8 @@ export function useProcessing() {
     currentStep: null,
     isProcessing: false
   })
+
+  const [results, setResults] = useState<ProcessingResults>({})
 
   const simulateProcessing = useCallback(async (url: string) => {
     setState(prev => ({
@@ -92,12 +94,21 @@ export function useProcessing() {
       await new Promise(resolve => setTimeout(resolve, 500))
     }
 
-    // Mark processing as complete
+    // Mark processing as complete and set mock results
     setState(prev => ({
       ...prev,
       isProcessing: false,
       currentStep: null
     }))
+
+    // Set mock results
+    setResults({
+      videoTitle: 'YouTube Video Title',
+      transcription: 'This is a sample English transcription of the YouTube video content. It demonstrates how the transcribed text would appear after processing through the Surus AI speech-to-text model. The transcription captures the spoken content with good accuracy and proper formatting.',
+      translation: 'Esta es una transcripción de muestra en inglés del contenido del video de YouTube. Demuestra cómo aparecería el texto transcrito después de procesarse a través del modelo de voz a texto de Surus AI. La transcripción captura el contenido hablado con buena precisión y formato adecuado.',
+      originalAudioUrl: '/api/mock/original-audio.mp3',
+      translatedAudioUrl: '/api/mock/translated-audio.wav'
+    })
 
   }, [])
 
@@ -107,10 +118,12 @@ export function useProcessing() {
       currentStep: null,
       isProcessing: false
     })
+    setResults({})
   }, [])
 
   return {
     ...state,
+    results,
     startProcessing: simulateProcessing,
     resetProcessing
   }

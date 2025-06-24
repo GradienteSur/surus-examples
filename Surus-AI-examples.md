@@ -1,4 +1,5 @@
 # Speech to text with Surus AI
+## This code might need some addons since the edge function that serves this speech to text cannot handle very big files. 
 
 ```javascript
 const GS_API_KEY = "tu_clave_api";

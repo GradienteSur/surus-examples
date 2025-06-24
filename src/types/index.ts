@@ -32,3 +32,19 @@ export interface ProcessingState {
   currentStep: string | null
   isProcessing: boolean
 }
+
+// Results Types
+export interface ProcessingResults {
+  videoTitle?: string
+  transcription?: string
+  translation?: string
+  originalAudioUrl?: string
+  translatedAudioUrl?: string
+}
+
+// Complete Application State
+export interface AppState {
+  submittedUrl: string | null
+  processing: ProcessingState
+  results: ProcessingResults
+}
